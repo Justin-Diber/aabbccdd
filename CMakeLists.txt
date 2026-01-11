@@ -23,19 +23,31 @@ set(CORE_SOURCES
 )
 
 # GUI Application
+# Try finding Qt6 first, then fallback to Qt5
 find_package(Qt6 COMPONENTS Widgets Core Gui QUIET)
 
 if(Qt6_FOUND)
-    message(STATUS "Qt6 found, building GUI application.")
+    message(STATUS "Qt6 found, building with Qt6.")
+    set(QT_LIBRARIES Qt6::Widgets Qt6::Core Qt6::Gui)
+else()
+    message(STATUS "Qt6 not found, trying Qt5...")
+    find_package(Qt5 COMPONENTS Widgets Core Gui QUIET)
+    if(Qt5_FOUND)
+        message(STATUS "Qt5 found, building with Qt5.")
+        set(QT_LIBRARIES Qt5::Widgets Qt5::Core Qt5::Gui)
+    endif()
+endif()
+
+if(Qt6_FOUND OR Qt5_FOUND)
     add_executable(RailwayTicketSystem 
         src/main.cpp 
         src/MainWindow.cpp 
         ${CORE_SOURCES}
         ${HEADERS}
     )
-    target_link_libraries(RailwayTicketSystem PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
+    target_link_libraries(RailwayTicketSystem PRIVATE ${QT_LIBRARIES})
 else()
-    message(WARNING "Qt6 not found. Skipping GUI application build. Please install Qt6 to build the GUI.")
+    message(WARNING "Neither Qt6 nor Qt5 found. Skipping GUI application build. Please install Qt.")
 endif()
 
 # Test Runner (Console)
