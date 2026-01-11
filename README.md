@@ -54,6 +54,28 @@ If CMake cannot find Qt6, you may need to export the path:
 export CMAKE_PREFIX_PATH=$(brew --prefix qt)
 ```
 
+#### Linux (Ubuntu/Debian)
+
+1.  **Install Build Tools & CMake**:
+    ```bash
+    sudo apt update
+    sudo apt install build-essential cmake
+    ```
+
+2.  **Install Qt6**:
+    ```bash
+    sudo apt install qt6-base-dev qt6-base-dev-tools libgl1-mesa-dev
+    ```
+    *Note: If your distribution's repository doesn't have Qt6, you may need to use the official [Qt Online Installer](https://www.qt.io/download-qt-installer).*
+
+3.  **Build & Run**:
+    ```bash
+    mkdir build && cd build
+    cmake ..
+    make
+    ./RailwayTicketSystem
+    ```
+
 #### Windows / Linux
 Download the official **Qt Online Installer** from [qt.io](https://www.qt.io/download-qt-installer).
 Select **Qt 6.x** and the component for your compiler (MinGW or MSVC for Windows, GCC for Linux).
